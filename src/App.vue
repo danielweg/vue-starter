@@ -1,28 +1,38 @@
 <template>
   <div>
-	<h1>Twój email to {{ email }}</h1>
-	<div class="bad" v-if="email.length < 10">Za krotki adres</div>
-	<div v-else-if="email.length < 20">OK</div>
-	<div class="bad" v-else>Za dlugi adres</div>
-	{{email.length}}
-	<input type="text" v-on:keyup.enter="alertMyEmail" v-model="email">
-	<button @click="alertMyEmail()">Wyswietl email</button>
+	<h1>Witaj w systemie zapisów na zajęcia</h1>
+	<div v-if="!loggedIn">
+		<label>Zaloguj się emailem</label>
+		<input type="text" v-model="email">
+		<button @click="logMeIn()">Zaloguj się</button>
+	</div>
 	
+	<div v-else>
+		<h2>Witaj {{email}}</h2>
+		<a @click="logOut()">Wyloguj</a>
+	</div>
   </div>
 </template>
 
 <script>
+import "milligram";
 export default {
 	data() {
 		return {
 			email: '',
-		}
+			loggedIn: false,
+		};
 	},
 	
 	methods: {
-		alertMyEmail() {
-			alert(this.email);
+		logMeIn() {
+			this.loggedIn = true;
 		},
+		
+		logOut() {
+			this.loggedIn = false;
+			this.email = '';
+		}
 		
 	}
 
@@ -30,7 +40,5 @@ export default {
 </script>
 
 <style>
-.bad {
-	color: red;
-}
+
 </style>
